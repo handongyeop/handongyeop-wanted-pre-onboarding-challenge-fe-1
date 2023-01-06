@@ -11,6 +11,7 @@ React를 활용한 SPA 개발에 관심이 있으며 redux-toolkit을 통해서 
 - yarn add react-redux @reduxjs/toolkit
 - yarn add react-router-dom
 - yarn add styled-components
+- yarn add redux-persist
 
 ### 프리티어 설정
 

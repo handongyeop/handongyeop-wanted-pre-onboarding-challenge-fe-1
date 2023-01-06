@@ -6,7 +6,10 @@ const DetailSlice = createSlice({
     id: '',
     title: '',
     content: '',
+    createdAt: '',
+    updatedAt: '',
     isUp: false,
+    inOpen: false,
   },
   reducers: {
     setId: (state, action) => {
@@ -15,9 +18,14 @@ const DetailSlice = createSlice({
     setDetail: (state, action) => {
       state.title = action.payload.title;
       state.content = action.payload.content;
+      state.createdAt = action.payload.createdAt;
+      state.updatedAt = action.payload.updatedAt;
     },
     setIsUp: (state, action) => {
       state.isUp = action.payload;
+    },
+    setIsOpen: (state, action) => {
+      state.isOpen = action.payload;
     },
   },
 });

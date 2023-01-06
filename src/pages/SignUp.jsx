@@ -6,6 +6,8 @@ import {
   StyledAuthInner,
   StyledAuthInput,
   StyledBG,
+  StyledLabel,
+  StyledSignH1,
   validEmailCheck,
 } from './Login';
 
@@ -57,41 +59,37 @@ const Login = () => {
   return (
     <StyledBG>
       <StyledAuthInner>
-        <div>
-          <h1>회원가입 페이지</h1>
-        </div>
-        <div>
-          <StyledAuthForm onSubmit={submitUser}>
-            <label htmlFor="email">Email</label>
-            <StyledAuthInput
-              type="text"
-              placeholder="ex) test@test.com"
-              onChange={changeValue}
-              id="email"
-              name="email"
-              value={signUpUser.email}
-            ></StyledAuthInput>
-            <label htmlFor="password">password</label>
-            <StyledAuthInput
-              type="password"
-              placeholder="8자 이상 입력해주세요."
-              onChange={changeValue}
-              id="password"
-              name="password"
-              value={signUpUser.password}
-            ></StyledAuthInput>
-            <StyledAuthButton
-              type="submit"
-              value="회원가입"
-              disabled={!signUpValid}
-            />
-            <StyledAuthButton
-              type="button"
-              value="뒤로가기"
-              onClick={() => navigate(-1)}
-            />
-          </StyledAuthForm>
-        </div>
+        <StyledSignH1>회원가입 페이지</StyledSignH1>
+        <StyledAuthForm onSubmit={submitUser}>
+          <StyledLabel htmlFor="email">이메일</StyledLabel>
+          <StyledAuthInput
+            type="text"
+            placeholder="ex) test@test.com"
+            onChange={changeValue}
+            id="email"
+            name="email"
+            value={signUpUser.email}
+          ></StyledAuthInput>
+          <StyledLabel htmlFor="password">비밀번호</StyledLabel>
+          <StyledAuthInput
+            type="password"
+            placeholder="8자 이상 입력해주세요."
+            onChange={changeValue}
+            id="password"
+            name="password"
+            value={signUpUser.password}
+          ></StyledAuthInput>
+          <StyledAuthButton
+            type="submit"
+            value="회원가입"
+            disabled={!signUpValid}
+          />
+          <StyledAuthButton
+            type="button"
+            value="뒤로가기"
+            onClick={() => navigate(-1)}
+          />
+        </StyledAuthForm>
       </StyledAuthInner>
     </StyledBG>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import { detailAction } from '../reducers/DetailReducer';
 
 const TodoDetail = () => {
@@ -37,6 +38,7 @@ const TodoDetail = () => {
           dispatch(detailAction.setDetail({ title: '', content: '' }));
           dispatch(detailAction.setId(''));
           dispatch(detailAction.setIsUp(false));
+          dispatch(detailAction.setIsOpen(false));
         } else {
           alert('todo 삭제에 실패하였습니다.');
         }
@@ -104,14 +106,42 @@ const TodoDetail = () => {
     }
   }, [detail, dispatch]);
 
+  const timeOutline = (time) => {
+    const year = time.substring(0, 4);
+    const month = time.substring(5, 7);
+    const day = time.substring(8, 10);
+    const hour = time.substring(11, 13);
+    const minute = time.substring(14, 16);
+
+    return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+  };
+
   return (
-    <div>
+    <StyledTodoDetail>
       {detail.id === '' ? (
         ''
       ) : (
-        <form onSubmit={detail.isUp ? updateTodo : deleteTodo}>
-          <label htmlFor="title">제목: </label>
-          <input
+        <StyledForm onSubmit={detail.isUp ? updateTodo : deleteTodo}>
+          <StyledLabel htmlFor="content">생성일 </StyledLabel>
+          <StyledInput
+            type="text"
+            name="title"
+            id="title"
+            value={timeOutline(detail.createdAt)}
+            onChange={changeValue}
+            disabled={!detail.isUp}
+          />
+          <StyledLabel htmlFor="content">수정일 </StyledLabel>
+          <StyledInput
+            type="text"
+            name="title"
+            id="title"
+            value={timeOutline(detail.updatedAt)}
+            onChange={changeValue}
+            disabled={!detail.isUp}
+          />
+          <StyledLabel htmlFor="title">제목 </StyledLabel>
+          <StyledInput
             type="text"
             name="title"
             id="title"
@@ -119,17 +149,19 @@ const TodoDetail = () => {
             onChange={changeValue}
             disabled={!detail.isUp}
           />
-          <label htmlFor="content">내용: </label>
-          <input
-            type="text"
+          <StyledLabel htmlFor="content">내용 </StyledLabel>
+          <StyledContent
             name="content"
             id="content"
             value={detail.isUp ? todo.content : detail.content}
             onChange={changeValue}
             disabled={!detail.isUp}
           />
-          <input type="submit" value={detail.isUp ? '확인' : '삭제'} />
-          <input
+          <StyledDetailBtn
+            type="submit"
+            value={detail.isUp ? '확인' : '삭제'}
+          />
+          <StyledDetailBtn
             type="button"
             value={detail.isUp ? '취소' : '수정'}
             onClick={() => {
@@ -137,10 +169,71 @@ const TodoDetail = () => {
               setTodo({ title: detail.title, content: detail.content });
             }}
           />
-        </form>
+        </StyledForm>
       )}
-    </div>
+      <StyledCancelBtn
+        onClick={() => {
+          dispatch(detailAction.setIsOpen(false));
+        }}
+      >
+        X
+      </StyledCancelBtn>
+    </StyledTodoDetail>
   );
 };
 
 export default TodoDetail;
+
+const StyledTodoDetail = styled.div`
+  background-color: rgb(200, 200, 200);
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  height: 60%;
+  inset: 0;
+  margin: auto;
+  padding: 15px;
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 25px;
+`;
+
+const StyledLabel = styled.label`
+  width: 20%;
+  height: 30px;
+  text-align: center;
+  line-height: 33px;
+`;
+
+const StyledContent = styled.textarea`
+  width: 80%;
+  height: 300px;
+  overflow-y: auto;
+  resize: none;
+  padding: 5px;
+`;
+
+const StyledInput = styled.input`
+  width: 80%;
+  padding: 5px;
+`;
+
+const StyledDetailBtn = styled.input`
+  width: 49%;
+  height: 30px;
+  margin-top: 8px;
+  cursor: pointer;
+`;
+
+const StyledCancelBtn = styled.button`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+`;

@@ -6,27 +6,6 @@ import { detailAction } from '../reducers/DetailReducer';
 import { StyledBG } from './Login';
 import TodoDetail from './TodoDetail';
 
-const StyledTodoInner = styled.div`
-  position: relative;
-  width: 500px;
-  margin: 0 auto;
-  padding: 30vh 0 0;
-  text-align: center;
-`;
-
-const StyledTodo = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const StyledHeader = styled.div``;
-const StyledTodoList = styled.div`
-  width: 50%;
-`;
-const StyledTodoDetail = styled.div`
-  width: 50%;
-`;
-const StyledTodoButton = styled.button``;
-
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [todo, setTodo] = useState({
@@ -107,36 +86,34 @@ const TodoList = () => {
   return (
     <StyledBG>
       <StyledTodoInner>
-        <StyledHeader>
-          <h1>Todo List</h1>
-          <StyledTodoButton
-            onClick={() => {
-              localStorage.removeItem('loginToken');
-              navigate('/auth/login');
-            }}
-          >
-            로그아웃
-          </StyledTodoButton>
-          <form onSubmit={addTodo}>
-            <input
-              type="text"
-              placeholder="제목을 입력하세요."
-              onChange={changeValue}
-              name="title"
-              value={todo.title}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="내용을 입력하세요."
-              onChange={changeValue}
-              name="content"
-              value={todo.content}
-            />
-            <br />
-            <input type="submit" value="추가" />
-          </form>
-        </StyledHeader>
+        <StyledH1>Todo List</StyledH1>
+        <StyledLogoutBtn
+          onClick={() => {
+            localStorage.removeItem('loginToken');
+            navigate('/auth/login');
+          }}
+        >
+          로그아웃
+        </StyledLogoutBtn>
+        <form onSubmit={addTodo}>
+          <StyledTodoInput
+            type="text"
+            placeholder="제목을 입력하세요."
+            onChange={changeValue}
+            name="title"
+            value={todo.title}
+          />
+          <br />
+          <StyledTodoInput
+            type="text"
+            placeholder="내용을 입력하세요."
+            onChange={changeValue}
+            name="content"
+            value={todo.content}
+          />
+          <br />
+          <StyledAddBtn type="submit" value="추가" />
+        </form>
         <StyledTodo>
           <StyledTodoList>
             {todos.map((todo) => {
@@ -149,15 +126,14 @@ const TodoList = () => {
                     onClick={() => {
                       dispatch(detailAction.setId(todo.id));
                       dispatch(detailAction.setIsUp(false));
+                      dispatch(detailAction.setIsOpen(true));
                     }}
                   />
                 </div>
               );
             })}
           </StyledTodoList>
-          <StyledTodoDetail>
-            <TodoDetail />
-          </StyledTodoDetail>
+          {detail.isOpen && <TodoDetail />}
         </StyledTodo>
       </StyledTodoInner>
     </StyledBG>
@@ -165,3 +141,50 @@ const TodoList = () => {
 };
 
 export default TodoList;
+
+const StyledTodoInner = styled.div`
+  border-radius: 20px;
+  position: absolute;
+  width: 500px;
+  height: 800px;
+  inset: 0;
+  margin: auto;
+  background: #fff;
+  background-color: white;
+`;
+const StyledH1 = styled.h1`
+  background-color: rgb(0 196 0);
+  border-radius: 20px 20px 0 0;
+  padding: 20px 0;
+  text-align: center;
+`;
+const StyledTodoInput = styled.input`
+  width: 75%;
+  height: 30px;
+  margin: 10px 0 0 10px;
+`;
+
+const StyledAddBtn = styled.input`
+  position: absolute;
+  width: 20%;
+  height: 70px;
+  right: 10px;
+  top: 92px;
+`;
+
+const StyledLogoutBtn = styled.button`
+  position: absolute;
+  right: 20px;
+  top: 30px;
+  height: 30px;
+`;
+
+const StyledTodo = styled.div`
+  display: flex;
+  height: 610px;
+  margin-top: 10px;
+  overflow-y: auto;
+`;
+const StyledTodoList = styled.div`
+  padding: 10px;
+`;
